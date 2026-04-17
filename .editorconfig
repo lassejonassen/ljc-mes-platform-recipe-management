@@ -1,0 +1,13 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+
+# Xml files
+
+# CA1873: Avoid potentially expensive logging
+dotnet_diagnostic.CA1873.severity = none
+
+[*.xml]
+indent_size = 2
