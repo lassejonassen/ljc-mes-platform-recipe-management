@@ -1,15 +1,15 @@
-using CleanArchitecture.Domain._Shared.DomainEvents;
-using CleanArchitecture.Infrastructure.DomainEvents;
-using CleanArchitecture.Infrastructure.Options;
-using CleanArchitecture.Infrastructure.Persistence.DbContexts;
-using CleanArchitecture.Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RecipeManagement.Domain._Shared.DomainEvents;
+using RecipeManagement.Infrastructure.DomainEvents;
+using RecipeManagement.Infrastructure.Options;
+using RecipeManagement.Infrastructure.Persistence.DbContexts;
+using RecipeManagement.Infrastructure.Persistence.Entities;
 using System.Text.Json;
 
-namespace CleanArchitecture.Infrastructure.BackgroundServices;
+namespace RecipeManagement.Infrastructure.BackgroundServices;
 
 public class ProcessDomainEventsJob(
     IServiceProvider serviceProvider,

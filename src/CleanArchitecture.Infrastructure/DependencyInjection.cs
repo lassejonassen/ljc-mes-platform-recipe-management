@@ -1,16 +1,4 @@
-﻿using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Application.Abstractions.DomainEvents;
-using CleanArchitecture.Application.Abstractions.IntegrationEvents;
-using CleanArchitecture.Domain.Templates.Repositories;
-using CleanArchitecture.Infrastructure.BackgroundServices;
-using CleanArchitecture.Infrastructure.DomainEvents;
-using CleanArchitecture.Infrastructure.Messaging;
-using CleanArchitecture.Infrastructure.Messaging.RabbitMq;
-using CleanArchitecture.Infrastructure.Persistence.DbContexts;
-using CleanArchitecture.Infrastructure.Persistence.Interceptors;
-using CleanArchitecture.Infrastructure.Persistence.Repositories;
-using CleanArchitecture.SharedKernel;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +8,21 @@ using Polly;
 using Polly.CircuitBreaker;
 using Polly.Retry;
 using RabbitMQ.Client;
+using RecipeManagement.Application.Abstractions.DomainEvents;
+using RecipeManagement.Application.Abstractions.IntegrationEvents;
+using RecipeManagement.Domain.MaterialDefinitions.Repositories;
+using RecipeManagement.Infrastructure;
+using RecipeManagement.Infrastructure.BackgroundServices;
+using RecipeManagement.Infrastructure.DomainEvents;
+using RecipeManagement.Infrastructure.Messaging;
+using RecipeManagement.Infrastructure.Messaging.RabbitMq;
+using RecipeManagement.Infrastructure.Persistence.DbContexts;
+using RecipeManagement.Infrastructure.Persistence.Interceptors;
+using RecipeManagement.Infrastructure.Persistence.Repositories;
+using RecipeManagement.SharedKernel;
 using Serilog;
 
-namespace CleanArchitecture.Infrastructure;
+namespace RecipeManagement.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -70,7 +70,7 @@ public static class DependencyInjection
         });
 
         builder.Services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
-        builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
+        builder.Services.AddScoped<IMaterialDefinitionRepository, MaterialDefinitionRepository>();
 
 
         return builder;

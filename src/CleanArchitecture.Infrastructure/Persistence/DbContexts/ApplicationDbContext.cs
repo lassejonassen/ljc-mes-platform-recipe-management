@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.SharedKernel;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using RecipeManagement.SharedKernel;
 
-namespace CleanArchitecture.Infrastructure.Persistence.DbContexts;
+namespace RecipeManagement.Infrastructure.Persistence.DbContexts;
 
 public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IUnitOfWork
 {

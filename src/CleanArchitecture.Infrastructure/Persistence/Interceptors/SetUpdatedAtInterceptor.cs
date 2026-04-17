@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Domain._Shared;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using RecipeManagement.Domain._Shared;
 
-namespace CleanArchitecture.Infrastructure.Persistence.Interceptors;
+namespace RecipeManagement.Infrastructure.Persistence.Interceptors;
 
 public sealed class SetUpdatedAtInterceptor : SaveChangesInterceptor
 {
@@ -27,7 +27,7 @@ public sealed class SetUpdatedAtInterceptor : SaveChangesInterceptor
     {
         var entities = context
             .ChangeTracker
-            .Entries<BaseEntity>()
+            .Entries<Entity>()
             .Where(entry => entry.State == EntityState.Added || entry.State == EntityState.Modified)
             .Select(entry => entry.Entity)
             .ToList();

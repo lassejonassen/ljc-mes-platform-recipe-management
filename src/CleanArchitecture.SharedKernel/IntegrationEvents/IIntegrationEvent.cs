@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.SharedKernel.IntegrationEvents;
+﻿namespace RecipeManagement.SharedKernel.IntegrationEvents;
 
 public interface IIntegrationEvent
 {

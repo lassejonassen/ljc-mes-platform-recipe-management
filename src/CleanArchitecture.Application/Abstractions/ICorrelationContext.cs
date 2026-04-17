@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.Abstractions;
+﻿namespace RecipeManagement.Application.Abstractions;
 
 public interface ICorrelationContext
 {

@@ -1,11 +1,9 @@
-﻿using CleanArchitecture.Domain._Shared;
-using CleanArchitecture.Infrastructure.Options;
-using CleanArchitecture.Infrastructure.Persistence.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using RecipeManagement.Domain._Shared;
+using RecipeManagement.Infrastructure.Persistence.Entities;
 using System.Text.Json;
 
-namespace CleanArchitecture.Infrastructure.Persistence.Interceptors;
+namespace RecipeManagement.Infrastructure.Persistence.Interceptors;
 
 public sealed class ConvertDomainEventsToOutboxMessagesInterceptor : SaveChangesInterceptor
 {

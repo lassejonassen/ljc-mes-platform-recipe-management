@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Infrastructure.Persistence.DbContexts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using RecipeManagement.Infrastructure.Persistence.DbContexts;
 
-namespace CleanArchitecture.WebAPI.Extensions;
+namespace RecipeManagement.WebAPI.Extensions;
 
 public static partial class ApplicationBuilderExtensions
 {

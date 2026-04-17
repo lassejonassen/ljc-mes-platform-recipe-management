@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace CleanArchitecture.Infrastructure.Persistence.DbContexts;
+namespace RecipeManagement.Infrastructure.Persistence.DbContexts;
 
 public sealed class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {

@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.SharedKernel.IntegrationEvents;
+﻿using RecipeManagement.SharedKernel.IntegrationEvents;
 
-namespace CleanArchitecture.Infrastructure.Messaging;
+namespace RecipeManagement.Infrastructure.Messaging;
 
 public class IntegrationEventBuffer
 {

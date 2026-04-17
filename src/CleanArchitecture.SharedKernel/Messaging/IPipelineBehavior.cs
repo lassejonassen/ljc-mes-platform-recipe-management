@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.SharedKernel.Messaging;
+﻿namespace RecipeManagement.SharedKernel.Messaging;
 
 public interface IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

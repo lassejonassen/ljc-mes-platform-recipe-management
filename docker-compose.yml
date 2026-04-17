@@ -1,9 +1,9 @@
 services:
-  cleanarchitecture.webapi:
-    image: ${DOCKER_REGISTRY-}cleanarchitecturewebapi
+  recipemanagement.webapi:
+    image: ${DOCKER_REGISTRY-}recipemanagement
     build:
       context: .
-      dockerfile: src/CleanArchitecture.WebAPI/Dockerfile
+      dockerfile: src/RecipeManagement.WebAPI/Dockerfile
     depends_on:
       sqlserver:
         condition: service_started

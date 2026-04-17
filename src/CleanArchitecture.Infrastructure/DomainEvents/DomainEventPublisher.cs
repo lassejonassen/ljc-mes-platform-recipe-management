@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Application.Abstractions.DomainEvents;
-using CleanArchitecture.Domain._Shared.DomainEvents;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RecipeManagement.Application.Abstractions.DomainEvents;
+using RecipeManagement.Domain._Shared.DomainEvents;
 
-namespace CleanArchitecture.Infrastructure.DomainEvents;
+namespace RecipeManagement.Infrastructure.DomainEvents;
 
 public class DomainEventPublisher(IServiceProvider serviceProvider) : IDomainEventPublisher
 {

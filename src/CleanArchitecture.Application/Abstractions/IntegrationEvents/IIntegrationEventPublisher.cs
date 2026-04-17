@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.SharedKernel.IntegrationEvents;
+﻿using RecipeManagement.SharedKernel.IntegrationEvents;
 
-namespace CleanArchitecture.Application.Abstractions.IntegrationEvents;
+namespace RecipeManagement.Application.Abstractions.IntegrationEvents;
 
 public interface IIntegrationEventPublisher
 {

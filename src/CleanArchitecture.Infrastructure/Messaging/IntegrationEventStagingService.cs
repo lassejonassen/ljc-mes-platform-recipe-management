@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Application.Abstractions.IntegrationEvents;
-using CleanArchitecture.SharedKernel.IntegrationEvents;
+﻿using RecipeManagement.Application.Abstractions;
+using RecipeManagement.Application.Abstractions.IntegrationEvents;
+using RecipeManagement.SharedKernel.IntegrationEvents;
 
-namespace CleanArchitecture.Infrastructure.Messaging;
+namespace RecipeManagement.Infrastructure.Messaging;
 
 public class IntegrationEventStagingService(
     IntegrationEventBuffer buffer,

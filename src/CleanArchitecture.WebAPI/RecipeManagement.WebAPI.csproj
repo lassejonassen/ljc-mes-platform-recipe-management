@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+
+    <PropertyGroup>
+      <UserSecretsId>65d9a085-775c-4e8b-b46f-88f4060ec8ae</UserSecretsId>
+      <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+      <DockerfileContext>..\..</DockerfileContext>
+      <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" />
+        <PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\CleanArchitecture.Application\RecipeManagement.Application.csproj" />
+      <ProjectReference Include="..\CleanArchitecture.Infrastructure\RecipeManagement.Infrastructure.csproj" />
+      <ProjectReference Include="..\CleanArchitecture.WebAPI.Contracts\RecipeManagement.WebAPI.Contracts.csproj" />
+    </ItemGroup>
+
+</Project>

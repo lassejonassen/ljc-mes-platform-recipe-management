@@ -4,7 +4,7 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "cleanarchitecture.webapi": "StartDebugging"
+        "recipemanagement.webapi": "StartDebugging"
       }
     }
   }

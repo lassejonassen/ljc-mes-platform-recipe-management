@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.Domain._Shared.DomainEvents;
+﻿using RecipeManagement.Domain._Shared.DomainEvents;
 
-namespace CleanArchitecture.Application.Abstractions.DomainEvents;
+namespace RecipeManagement.Application.Abstractions.DomainEvents;
 
 public interface IDomainEventHandler<in TEvent>
     where TEvent : IDomainEvent

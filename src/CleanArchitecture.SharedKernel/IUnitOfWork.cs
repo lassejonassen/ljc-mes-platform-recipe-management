@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.SharedKernel;
+﻿namespace RecipeManagement.SharedKernel;
 
 public interface IUnitOfWork
 {

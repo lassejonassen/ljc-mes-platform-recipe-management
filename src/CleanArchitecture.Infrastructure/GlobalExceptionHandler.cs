@@ -1,13 +1,13 @@
-﻿using CleanArchitecture.Application.Abstractions;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RecipeManagement.Application.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CleanArchitecture.Infrastructure;
+namespace RecipeManagement.Infrastructure;
 
 public sealed class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> logger,

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
-namespace CleanArchitecture.SharedKernel.Messaging;
+namespace RecipeManagement.SharedKernel.Messaging;
 
 internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
     ILogger<RequestLoggingPipelineBehavior<TRequest, TResponse>> logger)

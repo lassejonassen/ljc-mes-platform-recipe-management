@@ -1,15 +1,15 @@
 services:
-  cleanarchitecture.webapi:
+  recipemanagement.webapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       # Connection Strings & RabbitMQ
-      - ConnectionStrings__Database=Server=sqlserver;Database=CleanArchDb;User Id=sa;Password=Your_Password123!;TrustServerCertificate=True
+      - ConnectionStrings__Database=Server=sqlserver;Database=RecipeManagementDB;User Id=sa;Password=Your_Password123!;TrustServerCertificate=True
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - RabbitMq__ExchangeName=clean_architecture_integration_exchange
+      - RabbitMq__ExchangeName=mes_integration_exchange
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:4317
       - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
     ports:

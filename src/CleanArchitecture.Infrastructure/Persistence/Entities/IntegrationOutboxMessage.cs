@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Infrastructure.Persistence.Entities;
+﻿namespace RecipeManagement.Infrastructure.Persistence.Entities;
 
 public class IntegrationOutboxMessage // A separate table
 {

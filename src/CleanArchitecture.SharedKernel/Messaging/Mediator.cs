@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.SharedKernel.Messaging;
+namespace RecipeManagement.SharedKernel.Messaging;
 
 public class Mediator(IServiceProvider serviceProvider) : IMediator
 {

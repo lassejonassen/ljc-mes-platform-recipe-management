@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Infrastructure.Logging;
-using HealthChecks.UI.Client;
+﻿using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using RecipeManagement.Infrastructure.Logging;
 
-namespace CleanArchitecture.WebAPI.Extensions;
+namespace RecipeManagement.WebAPI.Extensions;
 
 public static class WebApplicationExtensions
 {

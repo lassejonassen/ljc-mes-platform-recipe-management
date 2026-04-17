@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Infrastructure.Persistence.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RecipeManagement.Infrastructure.Persistence.Entities;
 
-namespace CleanArchitecture.Infrastructure.Persistence.Configurations;
+namespace RecipeManagement.Infrastructure.Persistence.Configurations;
 
 internal sealed class OutboxMessageConfiguration : IEntityTypeConfiguration<OutboxMessage>
 {

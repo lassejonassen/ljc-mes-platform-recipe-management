@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.Domain._Shared.DomainEvents;
+﻿using RecipeManagement.Domain._Shared.DomainEvents;
 
-namespace CleanArchitecture.Domain._Shared;
+namespace RecipeManagement.Domain._Shared;
 
 public interface IHasDomainEvents
 {

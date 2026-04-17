@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.SharedKernel.IntegrationEvents;
+﻿using RecipeManagement.SharedKernel.IntegrationEvents;
 
-namespace CleanArchitecture.Contracts.Templates;
+namespace RecipeManagement.Contracts.Templates;
 
 public record TemplateCreatedIntegrationEvent : IntegrationEvent
 {

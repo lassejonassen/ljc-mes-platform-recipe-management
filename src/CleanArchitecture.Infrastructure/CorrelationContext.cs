@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.Application.Abstractions;
+﻿using RecipeManagement.Application.Abstractions;
 
-namespace CleanArchitecture.Infrastructure;
+namespace RecipeManagement.Infrastructure;
 
 // Internal interface so only Infrastructure/Presentation can set the ID
 public interface ICorrelationIdSetter

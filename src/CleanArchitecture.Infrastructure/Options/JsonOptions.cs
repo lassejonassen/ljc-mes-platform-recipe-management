@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace CleanArchitecture.Infrastructure.Options;
+namespace RecipeManagement.Infrastructure.Options;
 
 public static class JsonOptions
 {

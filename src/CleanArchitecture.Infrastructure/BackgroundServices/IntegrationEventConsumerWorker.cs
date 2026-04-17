@@ -1,13 +1,13 @@
-﻿using CleanArchitecture.Infrastructure.Messaging.RabbitMq;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RecipeManagement.Infrastructure.Messaging.RabbitMq;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CleanArchitecture.Infrastructure.BackgroundServices;
+namespace RecipeManagement.Infrastructure.BackgroundServices;
 
 public class IntegrationEventConsumerWorker : BackgroundService
 {
