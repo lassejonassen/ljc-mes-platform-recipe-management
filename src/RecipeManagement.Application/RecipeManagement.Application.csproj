@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture.Contracts\RecipeManagement.Contracts.csproj" />
-    <ProjectReference Include="..\CleanArchitecture.Domain\RecipeManagement.Domain.csproj" />
+    <ProjectReference Include="..\RecipeManagement.Contracts\RecipeManagement.Contracts.csproj" />
+    <ProjectReference Include="..\RecipeManagement.Domain\RecipeManagement.Domain.csproj" />
   </ItemGroup>
 </Project>

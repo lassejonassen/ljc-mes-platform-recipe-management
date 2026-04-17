@@ -25,9 +25,9 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\CleanArchitecture.Application\RecipeManagement.Application.csproj" />
-      <ProjectReference Include="..\CleanArchitecture.Infrastructure\RecipeManagement.Infrastructure.csproj" />
-      <ProjectReference Include="..\CleanArchitecture.WebAPI.Contracts\RecipeManagement.WebAPI.Contracts.csproj" />
+      <ProjectReference Include="..\RecipeManagement.Application\RecipeManagement.Application.csproj" />
+      <ProjectReference Include="..\RecipeManagement.Infrastructure\RecipeManagement.Infrastructure.csproj" />
+      <ProjectReference Include="..\RecipeManagement.WebAPI.Contracts\RecipeManagement.WebAPI.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

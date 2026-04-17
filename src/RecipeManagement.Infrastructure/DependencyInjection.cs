@@ -31,7 +31,7 @@ public static class DependencyInjection
         builder.AddPersistence();
         builder.AddLogging();
         builder.AddDomainEventHandlers();
-        builder.AddIntegrationEvents();
+        //builder.AddIntegrationEvents();
         builder.AddResilience();
         builder.AddHealthChecks();
 
@@ -49,7 +49,7 @@ public static class DependencyInjection
 
         builder.Services.AddSingleton<SetUpdatedAtInterceptor>();
         builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
-        builder.Services.AddScoped<ConvertIntegrationEventsToOutboxMessagesInterceptor>();
+        //builder.Services.AddScoped<ConvertIntegrationEventsToOutboxMessagesInterceptor>();
 
         builder.Services.AddDbContext<ApplicationDbContext>((sp, opt) =>
         {
@@ -66,7 +66,7 @@ public static class DependencyInjection
 
             opt.AddInterceptors(sp.GetRequiredService<SetUpdatedAtInterceptor>());
             opt.AddInterceptors(sp.GetRequiredService<ConvertDomainEventsToOutboxMessagesInterceptor>());
-            opt.AddInterceptors(sp.GetRequiredService<ConvertIntegrationEventsToOutboxMessagesInterceptor>());
+            //opt.AddInterceptors(sp.GetRequiredService<ConvertIntegrationEventsToOutboxMessagesInterceptor>());
         });
 
         builder.Services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());

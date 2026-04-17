@@ -1,7 +1,5 @@
-﻿using RecipeManagement.Domain._Shared;
-using RecipeManagement.Domain.MaterialDefinitions.Errors;
+﻿using RecipeManagement.Domain.MaterialDefinitions.Errors;
 using RecipeManagement.Domain.MaterialDefinitions.Events;
-using RecipeManagement.SharedKernel;
 
 namespace RecipeManagement.Domain.MaterialDefinitions.Entities;
 
@@ -55,9 +53,9 @@ public sealed class MaterialDefinition : AggregateRoot
         return Result.Success(property.Value.Id);
     }
 
-    public Result UpdateProperty(string name, string value, string? dataType, string? description)
+    public Result UpdateProperty(Guid id, string name, string value, string? dataType, string? description)
     {
-        var property = _properties.FirstOrDefault(x => x.Name == name);
+        var property = _properties.FirstOrDefault(x => x.Id == id);
         if (property is null)
             return Result.Failure(MaterialDefinitionErrors.PropertyNotFound);
 

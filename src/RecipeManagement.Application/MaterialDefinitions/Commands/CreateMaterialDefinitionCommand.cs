@@ -1,8 +1,6 @@
 ﻿using RecipeManagement.Domain.MaterialDefinitions.Entities;
 using RecipeManagement.Domain.MaterialDefinitions.Errors;
 using RecipeManagement.Domain.MaterialDefinitions.Repositories;
-using RecipeManagement.SharedKernel;
-using RecipeManagement.SharedKernel.Messaging;
 
 namespace RecipeManagement.Application.MaterialDefinitions.Commands;
 

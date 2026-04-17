@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture.SharedKernel\RecipeManagement.SharedKernel.csproj" />
+    <ProjectReference Include="..\RecipeManagement.SharedKernel\RecipeManagement.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

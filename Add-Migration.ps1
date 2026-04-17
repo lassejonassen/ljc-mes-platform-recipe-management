@@ -9,11 +9,13 @@ param (
 Write-Host "🚀 Starting migration: $Name" -ForegroundColor Cyan
 
 # 2. Set the variables for easy maintenance
-$InfrastructureProject = "./src/CleanArchitecture.Infrastructure"
+$InfrastructureProject = "./src/RecipeManagement.Infrastructure"
+$StartupProject = $InfrastructureProject
 $OutputDir = "./Persistence/Migrations"
 
 # 3. Execute the dotnet ef command
 dotnet ef migrations add $Name `
+    --startup-project $StartupProject `
     --project $InfrastructureProject `
     --output-dir $OutputDir
 

@@ -1,7 +1,5 @@
 ﻿using RecipeManagement.Domain.MaterialDefinitions.Errors;
 using RecipeManagement.Domain.MaterialDefinitions.Repositories;
-using RecipeManagement.SharedKernel;
-using RecipeManagement.SharedKernel.Messaging;
 
 namespace RecipeManagement.Application.MaterialDefinitions.Commands;
 
@@ -25,7 +23,7 @@ public sealed class UpdateMaterialDefinitionPropertyCommandHandler(
         if (materialDefinition == null)
             return Result.Failure(MaterialDefinitionErrors.NotFound);
 
-        var result = materialDefinition.UpdateProperty(request.Name, request.Value, request.DataType, request.Description);
+        var result = materialDefinition.UpdateProperty(request.PropertyId, request.Name, request.Value, request.DataType, request.Description);
 
         if (result.IsFailure)
             return Result.Failure(result.Error);

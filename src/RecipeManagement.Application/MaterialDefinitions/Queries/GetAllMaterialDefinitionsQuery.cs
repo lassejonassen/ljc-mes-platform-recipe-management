@@ -1,6 +1,5 @@
 ﻿using RecipeManagement.Application.MaterialDefinitions.DTOs;
 using RecipeManagement.Domain.MaterialDefinitions.Repositories;
-using RecipeManagement.SharedKernel.Messaging;
 
 namespace RecipeManagement.Application.MaterialDefinitions.Queries;
 

@@ -1,10 +1,7 @@
 ﻿using RecipeManagement.Domain.MaterialDefinitions.Errors;
 using RecipeManagement.Domain.MaterialDefinitions.Repositories;
-using RecipeManagement.SharedKernel;
-using RecipeManagement.SharedKernel.Messaging;
 
 namespace RecipeManagement.Application.MaterialDefinitions.Commands;
-
 public sealed record CreateMaterialDefinitionPropertyCommand(
     Guid MaterialDefinitionId,
     string Name,

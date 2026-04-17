@@ -1,6 +1,4 @@
-﻿using RecipeManagement.Domain._Shared.DomainEvents;
-
-namespace RecipeManagement.Domain._Shared;
+﻿namespace RecipeManagement.Domain._Shared;
 
 public abstract class AggregateRoot : Entity, IHasDomainEvents
 {
