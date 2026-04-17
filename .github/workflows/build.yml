@@ -9,7 +9,7 @@ on:
 
 # Define your variables here
 env:
-  SOLUTION_NAME: CleanArchitecture-Microservice.slnx  # <-- Change this to your actual file name
+  SOLUTION_NAME: "*.slnx"  # <-- Change this to your actual file name
 
 jobs:
   # This job runs on every Push, PR, and Manual Dispatch
