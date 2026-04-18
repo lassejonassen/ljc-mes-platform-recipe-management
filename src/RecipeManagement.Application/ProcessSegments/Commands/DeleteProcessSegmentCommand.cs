@@ -21,6 +21,9 @@ public sealed class DeleteProcessSegmentCommandHandler(
         if (processSegment == null)
             return Result.Failure(ProcessSegmentErrors.NotFound);
 
+        // Add method to determine deletion. If state is released, the process segment should not be deleted.
+        // Create new command to initialize new draft and make this obsolete.
+        
         repository.Delete(processSegment);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
