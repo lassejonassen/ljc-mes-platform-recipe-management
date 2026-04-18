@@ -1,6 +1,7 @@
 ﻿using RecipeManagement.Domain.MaterialDefinitions.Entities;
 using RecipeManagement.Domain.MaterialDefinitions.Errors;
 using RecipeManagement.Domain.MaterialDefinitions.Events;
+using RecipeManagement.Domain.ProcessSegments.Errors;
 using RecipeManagement.Domain.ProductSegments.Aggregates;
 
 namespace RecipeManagement.Domain.MaterialDefinitions.Aggregates;

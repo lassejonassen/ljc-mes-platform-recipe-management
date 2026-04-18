@@ -21,8 +21,25 @@ internal sealed class ProcessSegmentRepository
            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
+    public async Task<bool> IsLinkedToAnyProductSegmentAsync(Guid processSegmentId, CancellationToken cancellationToken = default)
+    {
+        return !await DbContext.Set<ProcessSegment>()
+            .Where(x => x.Id == processSegmentId)
+            .SelectMany(x => x.Parameters)
+            .AnyAsync(cancellationToken);
+    }
+
     public async Task<bool> IsNameUniqueAsync(string name, CancellationToken cancellationToken = default)
     {
         return !await DbContext.Set<ProcessSegment>().AnyAsync(x => x.Name == name, cancellationToken);  
+    }
+
+    public async Task<bool> IsParameterLinkedToAnyProductSegmentParameterAsync(Guid processSegmentParamterId, CancellationToken cancellationToken = default)
+    {
+        return !await DbContext.Set<ProcessSegment>()
+            .SelectMany(x => x.Parameters)
+            .Where(x => x.Id == processSegmentParamterId)
+            .SelectMany(x => x.ProductSegmentParameters)
+            .AnyAsync(cancellationToken);
     }
 }

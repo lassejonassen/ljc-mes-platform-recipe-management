@@ -1,6 +1,7 @@
 ﻿using RecipeManagement.Application.MaterialDefinitions.DTOs;
 using RecipeManagement.Domain.MaterialDefinitions.Errors;
 using RecipeManagement.Domain.MaterialDefinitions.Repositories;
+using RecipeManagement.Domain.ProcessSegments.Errors;
 
 namespace RecipeManagement.Application.MaterialDefinitions.Queries;
 
