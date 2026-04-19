@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RecipeManagement.Application.MaterialDefinitions.Commands;
 using RecipeManagement.Application.ProcessSegments.Commands;
 using RecipeManagement.Application.ProcessSegments.Queries;
+using RecipeManagement.WebAPI.Contracts.MaterialDefinitions;
 using RecipeManagement.WebAPI.Contracts.ProcessSegments;
 using RecipeManagement.WebAPI.Contracts.ProductSegments;
 
@@ -130,6 +132,31 @@ public class ProcessSegmentsController : BaseController
         }
 
         return CreatedAtAction(nameof(Get), new { id = result.Value }, result.Value);
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPatch("{id:guid}/release")]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ProcessSegmentReleaseRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.Id)
+        {
+            return BadRequest("Id in route does not match Id in body.");
+        }
+
+        var command = new ReleaseProcessSegmentCommand(id);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
     }
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]

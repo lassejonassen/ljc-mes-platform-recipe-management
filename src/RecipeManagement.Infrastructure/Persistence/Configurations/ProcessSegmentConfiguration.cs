@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RecipeManagement.Domain.ProcessSegments.Aggregates;
 using RecipeManagement.Domain.ProcessSegments.Enums;
-using RecipeManagement.Domain.ProductSegments.Enums;
 
 namespace RecipeManagement.Infrastructure.Persistence.Configurations;
 

@@ -23,4 +23,10 @@ public static class ProcessSegmentErrors
 
     public static readonly Error NameIsAlreadyInUse
         = new($"{Prefix}.NameIsAlreadyInUse", "A process segment with the same name already exists.", ErrorType.Failure);
+
+    public static readonly Error InvalidStateChange
+    = new($"{Prefix}.InvalidStateChange", "The state change is invalid", ErrorType.Failure);
+
+    public static readonly Error DraftFromDraftIsInvalid
+        = new($"{Prefix}.DraftFromDraftIsInvalid", "You cannot create a draft from another draft", ErrorType.Failure);
 }

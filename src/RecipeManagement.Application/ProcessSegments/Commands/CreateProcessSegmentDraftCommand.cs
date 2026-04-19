@@ -18,7 +18,7 @@ public sealed class CreateProcessSegmentDraftCommandHandler(
         if (processSegment is null)
             return Result.Failure<Guid>(ProcessSegmentErrors.NotFound);
 
-        var newProcessSegment = processSegment.CreateNewDraft(dateTimeProvider.UtcNow);
+        var newProcessSegment = processSegment.CreateDraft(dateTimeProvider.UtcNow);
 
         if (newProcessSegment.IsFailure)
             return Result.Failure<Guid>(newProcessSegment.Error);

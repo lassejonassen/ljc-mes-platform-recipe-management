@@ -1,4 +1,6 @@
-﻿using RecipeManagement.Domain.ProcessSegments.Entities;
+﻿using RecipeManagement.Domain.MaterialDefinitions.Enums;
+using RecipeManagement.Domain.MaterialDefinitions.Errors;
+using RecipeManagement.Domain.ProcessSegments.Entities;
 using RecipeManagement.Domain.ProcessSegments.Enums;
 using RecipeManagement.Domain.ProcessSegments.Errors;
 using RecipeManagement.Domain.ProcessSegments.Events;
@@ -37,8 +39,11 @@ public sealed class ProcessSegment : AggregateRoot
         return Result.Success(processSegment);
     }
 
-    public Result<ProcessSegment> CreateNewDraft(DateTime utcNow)
+    public Result<ProcessSegment> CreateDraft(DateTime utcNow)
     {
+        if (State != ProcessSegmentState.Released)
+            return Result.Failure<ProcessSegment>(ProcessSegmentErrors.DraftFromDraftIsInvalid);
+
         // 1. Instantiate the new version of the Aggregate Root
         var newDraft = new ProcessSegment(utcNow)
         {
@@ -68,12 +73,34 @@ public sealed class ProcessSegment : AggregateRoot
             newDraft._parameters.Add(parameterResult.Value);
         }
 
+        Deprecate();
+
         return Result.Success(newDraft);
     }
 
     public Result Rename(string name)
     {
         Name = name;
+        return Result.Success();
+    }
+
+    public Result Release()
+    {
+        if (State != ProcessSegmentState.Draft)
+            return Result.Failure(ProcessSegmentErrors.InvalidStateChange);
+
+        State = ProcessSegmentState.Released;
+
+        return Result.Success();
+    }
+
+    public Result Deprecate()
+    {
+        if (State != ProcessSegmentState.Released)
+            return Result.Failure(ProcessSegmentErrors.InvalidStateChange);
+
+        State = ProcessSegmentState.Obsolete;
+
         return Result.Success();
     }
 
