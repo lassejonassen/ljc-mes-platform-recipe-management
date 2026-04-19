@@ -30,6 +30,11 @@ public class Result
     public static Result Failure(Error error) => new(false, error);
 
     public static Result<TValue> Failure<TValue>(Error error) => new(default, false, error);
+
+    public static Result Failure(object procesSegmentErrors)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public sealed class Result<TValue>(TValue? value, bool isSuccess, Error error) : Result(isSuccess, error)

@@ -67,6 +67,7 @@ public class MaterialDefinitionsController : BaseController
             Properties = result.Value.Properties?.Select(p => new MaterialDefinitionPropertyResponseDTO
             {
                 Id = p.Id,
+                MaterialDefinitionId = p.MaterialDefinitionId,
                 Name = p.Name,
                 Value = p.Value,
                 Description = p.Description,

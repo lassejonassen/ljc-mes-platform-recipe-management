@@ -20,4 +20,7 @@ public static class ProcessSegmentErrors
 
     public static readonly Error ParameterAlreadyExists
         = new($"{Prefix}.ParameterAlreadyExists", "A process segment parameter with the same name already exists.", ErrorType.Failure);
+
+    public static readonly Error NameIsAlreadyInUse
+        = new($"{Prefix}.NameIsAlreadyInUse", "A process segment with the same name already exists.", ErrorType.Failure);
 }

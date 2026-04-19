@@ -21,7 +21,7 @@ public sealed class DeleteProcessSegmentParameterCommandHandler(
         if (processSegment == null)
             return Result.Failure(ProcessSegmentErrors.NotFound);
 
-        // Missing method on Process Segment to remove parameter
+        processSegment.RemoveParameter(request.ParameterId);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

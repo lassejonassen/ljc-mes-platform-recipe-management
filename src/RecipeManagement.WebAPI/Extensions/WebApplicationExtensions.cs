@@ -47,6 +47,13 @@ public static class WebApplicationExtensions
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
 
+        app.UseCors(opt =>
+        {
+            opt.AllowAnyHeader();
+            opt.AllowAnyMethod();
+            opt.AllowAnyOrigin();
+        });
+
         return app;
     }
 }

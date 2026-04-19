@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RecipeManagement.Application.MaterialDefinitions.Queries;
+using RecipeManagement.Application.ProcessSegments.Commands;
 using RecipeManagement.Application.ProcessSegments.Queries;
-using RecipeManagement.WebAPI.Contracts.MaterialDefinitions;
 using RecipeManagement.WebAPI.Contracts.ProcessSegments;
 
 namespace RecipeManagement.WebAPI.Controllers;
@@ -85,5 +84,174 @@ public class ProcessSegmentsController : BaseController
         };
 
         return Ok(_result);
+    }
+
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] ProcessSegmentCreateRequestDTO request, CancellationToken cancellationToken)
+    {
+        var command = new CreateProcessSegmentCommand(request.Name);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return CreatedAtAction(nameof(Get), new { id = result.Value }, result.Value);
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPost("{id:guid}/parameters")]
+    public async Task<IActionResult> CreateParameter([FromRoute] Guid id, [FromBody] ProcessSegmentParameterCreateRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.ProcessSegmentId)
+        {
+            return BadRequest("ID in route does not match ProcessSegmentId in body.");
+        }
+
+        var command = new CreateProcessSegmentParameterCommand(
+            id,
+            request.Name,
+            request.Value,
+            request.DataType,
+            request.Description,
+            request.IsReadOnly,
+            request.DefaultValue
+            );
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ProcessSegmentUpdateRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.ProcessSegmentId)
+        {
+            return BadRequest("Id in route does not match Id in body.");
+        }
+
+        var command = new UpdateProcessSegmentCommand(
+            id,
+            request.Name);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPut("{id:guid}/parameters/{parameterId:guid}")]
+    public async Task<IActionResult> UpdateParameter([FromRoute] Guid id, [FromRoute] Guid parameterId, [FromBody] ProcessSegmentParameterUpdateRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.ProcessSegmentId)
+        {
+            return BadRequest("ID in route does not match ProcessSegmentId in body.");
+        }
+
+        if (parameterId != request.ParameterId)
+        {
+            return BadRequest("ParameterId in route does not match ParameterId in body.");
+        }
+
+        var command = new UpdateProcessSegmentParameterCommand(
+            id,
+            request.ParameterId,
+            request.Name,
+            request.Value,
+            request.DataType,
+            request.Description,
+            request.IsReadOnly,
+            request.DefaultValue
+            );
+
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        if (id == Guid.Empty)
+        {
+            return BadRequest("The id cannot be empty");
+        }
+
+
+        var query = new DeleteProcessSegmentCommand(id);
+
+        var result = await Mediator.Send(query, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpDelete("{id:guid}/parameters/{parameterId:guid}")]
+    public async Task<IActionResult> UpdateProperty([FromRoute] Guid id, [FromRoute] Guid parameterId, CancellationToken cancellationToken)
+    {
+
+        var command = new DeleteProcessSegmentParameterCommand(
+            id,
+            parameterId);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
     }
 }

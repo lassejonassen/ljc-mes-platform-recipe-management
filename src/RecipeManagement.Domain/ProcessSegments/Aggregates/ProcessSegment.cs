@@ -24,14 +24,13 @@ public sealed class ProcessSegment : AggregateRoot
 
     public static Result<ProcessSegment> Create(
         string name,
-        int version,
         DateTime utcNow)
     {
         var processSegment = new ProcessSegment(utcNow)
         {
             Name = name,
             StableId = Guid.NewGuid(),
-            Version = version,
+            Version = 1,
             State = ProcessSegmentState.Draft
         };
 
@@ -49,6 +48,12 @@ public sealed class ProcessSegment : AggregateRoot
         };
 
         return Result.Success(processSegment);
+    }
+
+    public Result Rename(string name)
+    {
+        Name = name;
+        return Result.Success();
     }
 
     public Result AddParameter(

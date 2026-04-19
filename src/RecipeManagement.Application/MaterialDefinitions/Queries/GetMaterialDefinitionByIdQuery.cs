@@ -1,7 +1,6 @@
 ﻿using RecipeManagement.Application.MaterialDefinitions.DTOs;
 using RecipeManagement.Domain.MaterialDefinitions.Errors;
 using RecipeManagement.Domain.MaterialDefinitions.Repositories;
-using RecipeManagement.Domain.ProcessSegments.Errors;
 
 namespace RecipeManagement.Application.MaterialDefinitions.Queries;
 
@@ -27,6 +26,7 @@ public sealed class GetMaterialDefinitionByIdQueryHandler(IMaterialDefinitionRep
             Properties = entity.Properties?.Select(p => new MaterialDefinitionPropertyDTO
             {
                 Id = p.Id,
+                MaterialDefinitionId = p.MaterialDefinitionId,
                 Name = p.Name,
                 Value = p.Value,
                 DataType = p.DataType,
