@@ -1,8 +1,11 @@
-﻿using RecipeManagement.Domain.MaterialDefinitions.Errors;
+﻿using RecipeManagement.Domain.MaterialDefinitions.Enums;
+using RecipeManagement.Domain.MaterialDefinitions.Errors;
 using RecipeManagement.Domain.MaterialDefinitions.Repositories;
+using RecipeManagement.Domain.ProcessSegments.Enums;
 using RecipeManagement.Domain.ProcessSegments.Errors;
 using RecipeManagement.Domain.ProcessSegments.Repositories;
 using RecipeManagement.Domain.ProductSegments.Aggregates;
+using RecipeManagement.Domain.ProductSegments.Errors;
 using RecipeManagement.Domain.ProductSegments.Repositories;
 
 namespace RecipeManagement.Application.ProductSegments.Commands;
@@ -24,9 +27,16 @@ public sealed class CreateProductSegmentCommandHandler(
         if (materialDefinition is null)
             return Result.Failure<Guid>(MaterialDefinitionErrors.NotFound);
 
+        if (materialDefinition.State != MaterialDefinitionState.Released)
+            return Result.Failure<Guid>(ProductSegmentErrors.MaterialDefinitionNotReleased);
+
         var processSegment = await processSegmentRepository.GetByIdAsync(request.ProcessSegmentId, cancellationToken);
+        
         if (processSegment is null)
             return Result.Failure<Guid>(ProcessSegmentErrors.NotFound);
+
+        if (processSegment.State != ProcessSegmentState.Released)
+            return Result.Failure<Guid>(ProductSegmentErrors.ProcessSegmentNotReleased);
 
         var utcNow = dateTimeProvider.UtcNow;
 

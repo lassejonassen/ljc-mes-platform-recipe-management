@@ -17,4 +17,17 @@ public static class ProductSegmentErrors
 
     public static readonly Error ParameterNotFound
         = new($"{Prefix}.ParameterNotFound", "Product Segment Parameter not found", ErrorType.NotFound);
+
+    public static readonly Error InvalidStateChange
+    = new($"{Prefix}.InvalidStateChange", "The state change is invalid", ErrorType.Failure);
+
+    public static readonly Error DraftFromDraftIsInvalid
+        = new($"{Prefix}.DraftFromDraftIsInvalid", "You cannot create a draft from another draft", ErrorType.Failure);
+
+    public static readonly Error ProcessSegmentNotReleased
+                = new($"{Prefix}.ProcessSegmentNotReleased", "You cannot create a draft from Process Segment which is not released", ErrorType.Failure);
+
+    public static readonly Error MaterialDefinitionNotReleased
+                = new($"{Prefix}.ProcessSegmentNotReleased", "You cannot create a draft from Material Definition which is not released", ErrorType.Failure);
+
 }

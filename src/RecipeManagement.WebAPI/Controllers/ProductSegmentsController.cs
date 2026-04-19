@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RecipeManagement.Application.ProcessSegments.Commands;
 using RecipeManagement.Application.ProductSegments.Commands;
 using RecipeManagement.Application.ProductSegments.Queries;
+using RecipeManagement.WebAPI.Contracts.ProcessSegments;
 using RecipeManagement.WebAPI.Contracts.ProductSegments;
 
 namespace RecipeManagement.WebAPI.Controllers;
@@ -102,6 +104,56 @@ public class ProductSegmentsController : BaseController
         }
 
         return CreatedAtAction(nameof(Get), new { id = result.Value }, result.Value);
+    }
+
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPost("{id:guid}/drafts")]
+    public async Task<IActionResult> CreateDraft([FromRoute] Guid id, [FromBody] ProductSegmentDraftCreateRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.ProductSegmentId)
+        {
+            return BadRequest("The ID from the Route does not match the body");
+        }
+
+        var command = new CreateProductSegmentDraftCommand(request.ProductSegmentId);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return CreatedAtAction(nameof(Get), new { id = result.Value }, result.Value);
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPatch("{id:guid}/release")]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ProductSegmentReleaseRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.ProductSegmentId)
+        {
+            return BadRequest("Id in route does not match Id in body.");
+        }
+
+        var command = new ReleaseProductSegmentCommand(id);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
     }
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]

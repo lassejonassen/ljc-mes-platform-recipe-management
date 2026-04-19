@@ -9,4 +9,5 @@ public interface IProcessSegmentRepository : IRepository<ProcessSegment>
     Task<bool> IsNameUniqueAsync(string sku, CancellationToken cancellationToken = default);
     Task<bool> IsLinkedToAnyProductSegmentAsync(Guid processSegmentId, CancellationToken cancellationToken = default);
     Task<bool> IsParameterLinkedToAnyProductSegmentParameterAsync(Guid processSegmentParamterId, CancellationToken cancellationToken = default);
+    Task<ProcessSegment?> GetReleasedAsync(Guid stableId, CancellationToken cancellationToken = default);
 }

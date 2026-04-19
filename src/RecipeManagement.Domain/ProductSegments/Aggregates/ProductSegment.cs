@@ -1,6 +1,8 @@
 ﻿using RecipeManagement.Domain.MaterialDefinitions.Aggregates;
 using RecipeManagement.Domain.ProcessSegments.Aggregates;
 using RecipeManagement.Domain.ProcessSegments.Entities;
+using RecipeManagement.Domain.ProcessSegments.Enums;
+using RecipeManagement.Domain.ProcessSegments.Errors;
 using RecipeManagement.Domain.ProductSegments.Entities;
 using RecipeManagement.Domain.ProductSegments.Enums;
 using RecipeManagement.Domain.ProductSegments.Errors;
@@ -36,17 +38,37 @@ public sealed class ProductSegment : AggregateRoot
         return Result.Success(productSegment);
     }
 
-    public Result<ProductSegment> CreateNewDraft(int version, DateTime utcNow)
+    public Result<ProductSegment> CreateDraft(Guid processSegmentId, DateTime utcNow)
     {
         var productSegment = new ProductSegment(utcNow)
         {
             MaterialDefinitionId = MaterialDefinitionId,
-            ProcessSegmentId = ProcessSegmentId,
-            Version = version,
+            ProcessSegmentId = processSegmentId,
+            Version = Version +1,
             State = ProductSegmentState.Draft
         };
 
         return Result.Success(productSegment);
+    }
+
+    public Result Release()
+    {
+        if (State != ProductSegmentState.Draft)
+            return Result.Failure(ProductSegmentErrors.InvalidStateChange);
+
+        State = ProductSegmentState.Released;
+
+        return Result.Success();
+    }
+
+    public Result Deprecate()
+    {
+        if (State != ProductSegmentState.Released)
+            return Result.Failure(ProductSegmentErrors.InvalidStateChange);
+
+        State = ProductSegmentState.Obsolete;
+
+        return Result.Success();
     }
 
     public Result AddParameter(ProcessSegmentParameter template, DateTime utcNow)

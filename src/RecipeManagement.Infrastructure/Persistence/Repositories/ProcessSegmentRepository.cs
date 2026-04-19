@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecipeManagement.Domain.ProcessSegments.Aggregates;
+using RecipeManagement.Domain.ProcessSegments.Enums;
 using RecipeManagement.Domain.ProcessSegments.Repositories;
 using RecipeManagement.Infrastructure.Persistence.DbContexts;
 
@@ -19,6 +20,13 @@ internal sealed class ProcessSegmentRepository
         return await DbContext.Set<ProcessSegment>()
            .Include(x => x.Parameters)
            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
+    public async Task<ProcessSegment?> GetReleasedAsync(Guid stableId, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<ProcessSegment>()
+            .Include(x => x.Parameters)
+            .FirstOrDefaultAsync(x => x.StableId == stableId && x.State == ProcessSegmentState.Released, cancellationToken);
     }
 
     public async Task<bool> IsLinkedToAnyProductSegmentAsync(Guid processSegmentId, CancellationToken cancellationToken = default)
