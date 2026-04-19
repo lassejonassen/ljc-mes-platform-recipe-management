@@ -9,8 +9,7 @@ public sealed record CreateProcessSegmentParameterCommand(
     string Value,
     string? DataType,
     string? Description,
-    bool IsReadOnly,
-    string DefaultValue) : IRequest<Result>;
+    bool IsReadOnly) : IRequest<Result>;
 
 public sealed class CreateProcessSegmentParameterCommandHandler(
     IProcessSegmentRepository repository,
@@ -30,7 +29,6 @@ public sealed class CreateProcessSegmentParameterCommandHandler(
             request.DataType,
             request.Description,
             request.IsReadOnly,
-            request.DefaultValue,
             dateTimeProvider.UtcNow);
 
         if (result.IsFailure)

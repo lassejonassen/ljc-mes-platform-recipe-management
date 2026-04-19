@@ -16,9 +16,6 @@ internal sealed class ProcessSegmentParameterConfiguration : ParameterDefinition
         builder.Property(x => x.IsReadOnly)
             .IsRequired();
 
-        builder.Property(x => x.DefaultValue)
-            .HasMaxLength(500);
-
         builder.HasOne<ProcessSegment>()
            .WithMany(ps => ps.Parameters)
            .HasForeignKey(x => x.ProcessSegmentId)

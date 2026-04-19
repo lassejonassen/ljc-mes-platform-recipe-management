@@ -25,7 +25,7 @@ internal sealed class ProcessSegmentRepository
     {
         return await DbContext.Set<ProcessSegment>()
             .Where(x => x.Id == processSegmentId)
-            .SelectMany(x => x.Parameters)
+            .SelectMany(x => x.ProductSegments)
             .AnyAsync(cancellationToken);
     }
 
@@ -36,7 +36,7 @@ internal sealed class ProcessSegmentRepository
 
     public async Task<bool> IsParameterLinkedToAnyProductSegmentParameterAsync(Guid processSegmentParamterId, CancellationToken cancellationToken = default)
     {
-        return !await DbContext.Set<ProcessSegment>()
+        return await DbContext.Set<ProcessSegment>()
             .SelectMany(x => x.Parameters)
             .Where(x => x.Id == processSegmentParamterId)
             .SelectMany(x => x.ProductSegmentParameters)

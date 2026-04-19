@@ -13,9 +13,6 @@ internal sealed class ProductSegmentParameterConfiguration : ParameterDefinition
 
         builder.ToTable("ProductSegmentParameters");
 
-        builder.Property(x => x.ActualValue)
-            .HasMaxLength(500);
-
         // Map the Foreign Key to the template
         builder.HasOne<ProcessSegmentParameter>()
             .WithMany(e => e.ProductSegmentParameters)

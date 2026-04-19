@@ -11,13 +11,18 @@ internal sealed class ProductSegmentRepository
 {
     public async Task<IReadOnlyCollection<ProductSegment>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<ProductSegment>().ToListAsync(cancellationToken);
+        return await DbContext.Set<ProductSegment>()
+            .Include(x => x.MaterialDefinition)
+            .Include(x => x.ProcessSegment)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<ProductSegment?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<ProductSegment>()
            .Include(x => x.Parameters)
+           .Include(x => x.MaterialDefinition)
+           .Include(x => x.ProcessSegment)
            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }

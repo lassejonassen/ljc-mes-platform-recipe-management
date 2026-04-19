@@ -6,21 +6,19 @@ namespace RecipeManagement.Domain.ProcessSegments.Entities;
 public sealed class ProcessSegmentParameter : ParameterDefinition
 {
     private ProcessSegmentParameter() { }
-    private ProcessSegmentParameter(Guid processSegmentId, string name, string value, string? dataType, string? description, bool isReadOnly, string defaultValue, DateTime utcNow)
+    private ProcessSegmentParameter(Guid processSegmentId, string name, string value, string? dataType, string? description, bool isReadOnly, DateTime utcNow)
         : base(name, value, dataType, description, utcNow)
     {
         ProcessSegmentId = processSegmentId;
         IsReadOnly = isReadOnly;
-        DefaultValue = defaultValue;
     }
     public bool IsReadOnly { get; private set; }
-    public string DefaultValue { get; private set; } = string.Empty;
     public Guid ProcessSegmentId { get; private set; }
     public ProcessSegment ProcessSegment { get; } = null!;
     private readonly List<ProductSegmentParameter> _productSegmentParameters = [];
     public IReadOnlyCollection<ProductSegmentParameter> ProductSegmentParameters => _productSegmentParameters.AsReadOnly();
 
-    public static Result<ProcessSegmentParameter> Create(Guid processSegmentId, string name, string value, string? dataType, string? description, bool isReadOnly, string defaultValue, DateTime utcNow)
+    public static Result<ProcessSegmentParameter> Create(Guid processSegmentId, string name, string value, string? dataType, string? description, bool isReadOnly, DateTime utcNow)
     {
         var entity = new ProcessSegmentParameter(
             processSegmentId,
@@ -29,20 +27,18 @@ public sealed class ProcessSegmentParameter : ParameterDefinition
             dataType,
             description,
             isReadOnly,
-            defaultValue, 
             utcNow);
 
         return Result.Success(entity);
     }
 
-    public Result Update(string name, string value, string? dataType, string? description, bool isReadOnly, string defaultValue)
+    public Result Update(string name, string value, string? dataType, string? description, bool isReadOnly)
     {
         Name = name;
         Value = value;
         DataType = dataType;
         Description = description;
         IsReadOnly = isReadOnly;
-        DefaultValue = defaultValue;
 
         return Result.Success();
     }

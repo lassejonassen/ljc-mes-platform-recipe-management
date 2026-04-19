@@ -37,17 +37,38 @@ public sealed class ProcessSegment : AggregateRoot
         return Result.Success(processSegment);
     }
 
-    public Result<ProcessSegment> CreateNewDraft(int version, DateTime utcNow)
+    public Result<ProcessSegment> CreateNewDraft(DateTime utcNow)
     {
-        var processSegment = new ProcessSegment(utcNow)
+        // 1. Instantiate the new version of the Aggregate Root
+        var newDraft = new ProcessSegment(utcNow)
         {
             Name = Name,
             StableId = StableId,
-            Version = version,
+            Version = Version + 1,
             State = ProcessSegmentState.Draft
         };
 
-        return Result.Success(processSegment);
+        // 2. Iterate through existing parameters and create new instances for the draft
+        foreach (var param in _parameters)
+        {
+            var parameterResult = ProcessSegmentParameter.Create(
+                newDraft.Id, // Point to the NEW ProcessSegment Id
+                param.Name,
+                param.Value,
+                param.DataType,
+                param.Description,
+                param.IsReadOnly,
+                utcNow);
+
+            if (parameterResult.IsFailure)
+            {
+                return Result.Failure<ProcessSegment>(parameterResult.Error);
+            }
+
+            newDraft._parameters.Add(parameterResult.Value);
+        }
+
+        return Result.Success(newDraft);
     }
 
     public Result Rename(string name)
@@ -62,7 +83,6 @@ public sealed class ProcessSegment : AggregateRoot
         string? dataType,
         string? description,
         bool isReadOnly,
-        string defaultValue,
         DateTime utcNow)
     {
         if (_parameters.Any(x => x.Name == name))
@@ -76,7 +96,6 @@ public sealed class ProcessSegment : AggregateRoot
             dataType,
             description,
             isReadOnly,
-            defaultValue,
             utcNow);
 
         if (parameter.IsFailure)
@@ -94,8 +113,7 @@ public sealed class ProcessSegment : AggregateRoot
         string value,
         string? dataType,
         string? description,
-        bool isReadOnly,
-        string defaultValue)
+        bool isReadOnly)
     {
         var parameter = _parameters.FirstOrDefault(x => x.Id == id);
         if (parameter is null)
@@ -106,8 +124,7 @@ public sealed class ProcessSegment : AggregateRoot
             value,
             dataType,
             description,
-            isReadOnly,
-            defaultValue
+            isReadOnly
             );
 
         if (updateResult.IsFailure)

@@ -7,5 +7,4 @@ public sealed record ProcessSegmentParameterUpdateRequestDTO(
     string Value,
     string? DataType,
     string? Description,
-    bool IsReadOnly,
-    string DefaultValue);
+    bool IsReadOnly);

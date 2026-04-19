@@ -2,6 +2,7 @@
 using RecipeManagement.Application.ProcessSegments.Commands;
 using RecipeManagement.Application.ProcessSegments.Queries;
 using RecipeManagement.WebAPI.Contracts.ProcessSegments;
+using RecipeManagement.WebAPI.Contracts.ProductSegments;
 
 namespace RecipeManagement.WebAPI.Controllers;
 
@@ -78,7 +79,6 @@ public class ProcessSegmentsController : BaseController
                 CreatedAtUtc = p.CreatedAtUtc,
                 UpdatedAtUtc = p.UpdatedAtUtc,
                 ProcessSegmentId = result.Value.Id,
-                DefaultValue = p.DefaultValue,
                 IsReadOnly = p.IsReadOnly
             }).ToList(),
         };
@@ -95,6 +95,32 @@ public class ProcessSegmentsController : BaseController
     public async Task<IActionResult> Create([FromBody] ProcessSegmentCreateRequestDTO request, CancellationToken cancellationToken)
     {
         var command = new CreateProcessSegmentCommand(request.Name);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return CreatedAtAction(nameof(Get), new { id = result.Value }, result.Value);
+    }
+
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPost("{id:guid}/drafts")]
+    public async Task<IActionResult> CreateDraft([FromRoute] Guid id, [FromBody] ProcessSegmentDraftCreateRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.ProcessSegmentId)
+        {
+            return BadRequest("The ID from the Route does not match the body");
+        }
+
+
+        var command = new CreateProcessSegmentDraftCommand(request.ProcessSegmentId);
 
         var result = await Mediator.Send(command, cancellationToken);
 
@@ -125,9 +151,7 @@ public class ProcessSegmentsController : BaseController
             request.Value,
             request.DataType,
             request.Description,
-            request.IsReadOnly,
-            request.DefaultValue
-            );
+            request.IsReadOnly);
 
         var result = await Mediator.Send(command, cancellationToken);
 
@@ -191,9 +215,7 @@ public class ProcessSegmentsController : BaseController
             request.Value,
             request.DataType,
             request.Description,
-            request.IsReadOnly,
-            request.DefaultValue
-            );
+            request.IsReadOnly);
 
 
         var result = await Mediator.Send(command, cancellationToken);

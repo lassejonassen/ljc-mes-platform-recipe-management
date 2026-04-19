@@ -10,8 +10,7 @@ public sealed record UpdateProcessSegmentParameterCommand(
     string Value,
     string? DataType,
     string? Description,
-    bool IsReadOnly,
-    string DefaultValue) : IRequest<Result>;
+    bool IsReadOnly) : IRequest<Result>;
 
 public sealed class UpdateProcessSegmentParameterCommandHandler(
     IProcessSegmentRepository repository,
@@ -30,9 +29,7 @@ public sealed class UpdateProcessSegmentParameterCommandHandler(
             request.Value,
             request.DataType,
             request.Description,
-            request.IsReadOnly,
-            request.DefaultValue
-            );
+            request.IsReadOnly);
 
         if (updateResult.IsFailure)
             return Result.Failure(updateResult.Error);

@@ -36,7 +36,6 @@ public sealed class GetProcessSegmentByIdQueryHandler(
                 UpdatedAtUtc = p.UpdatedAtUtc,
                 Name = p.Name,
                 Value = p.Value,
-                DefaultValue = p.DefaultValue,
                 IsReadOnly = p.IsReadOnly,
                 ProcessSegmentId = entity.Id,
                 DataType = p.DataType,
