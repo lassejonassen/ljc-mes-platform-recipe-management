@@ -190,6 +190,31 @@ public class MaterialDefinitionsController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
+    [HttpPatch("{id:guid}/deprecate")]
+    public async Task<IActionResult> Deprecate([FromRoute] Guid id, [FromBody] MaterialDefinitionDeprecateRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.Id)
+        {
+            return BadRequest("Id in route does not match Id in body.");
+        }
+
+        var command = new DeprecateMaterialDefinitionCommand(id);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] MaterialDefinitionUpdateRequestDTO request, CancellationToken cancellationToken)
     {

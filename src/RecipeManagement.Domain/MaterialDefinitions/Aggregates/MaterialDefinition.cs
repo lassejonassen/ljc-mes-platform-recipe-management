@@ -40,7 +40,7 @@ public sealed class MaterialDefinition : AggregateRoot
 
     public Result<MaterialDefinition> CreateDraft(DateTime utcNow)
     {
-        if (State != MaterialDefinitionState.Released)
+        if (State == MaterialDefinitionState.Draft)
             return Result.Failure<MaterialDefinition>(MaterialDefinitionErrors.DraftFromDraftIsInvalid);
 
         var materialDefinition = new MaterialDefinition(utcNow)
