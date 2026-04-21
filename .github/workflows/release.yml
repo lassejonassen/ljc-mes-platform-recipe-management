@@ -1,5 +1,4 @@
 name: Auto Release
-
 on:
   push:
     branches:
@@ -13,10 +12,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4 # Recommended stable version
         with:
-          fetch-depth: 0 # Fetch all tags to ensure the check is accurate
-      
+          fetch-depth: 0 
+          
       - name: Get Version
         id: get_v
         run: |
@@ -28,20 +27,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Check if the tag exists in the remote repository
           if gh release view "v${{ steps.get_v.outputs.VERSION }}" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Release v${{ steps.get_v.outputs.VERSION }} already exists. Skipping."
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Create Release
-        # Only run if the 'exists' output from the previous step is 'false'
         if: steps.check_tag.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create "v${{ steps.get_v.outputs.VERSION }}" \
             --title "v${{ steps.get_v.outputs.VERSION }}" \
-            --generate-notes
+            --generate-notes \
+            --latest
