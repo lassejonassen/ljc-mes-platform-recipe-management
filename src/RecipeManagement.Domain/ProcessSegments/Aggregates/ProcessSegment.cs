@@ -41,7 +41,7 @@ public sealed class ProcessSegment : AggregateRoot
 
     public Result<ProcessSegment> CreateDraft(DateTime utcNow)
     {
-        if (State != ProcessSegmentState.Released)
+        if (State == ProcessSegmentState.Draft)
             return Result.Failure<ProcessSegment>(ProcessSegmentErrors.DraftFromDraftIsInvalid);
 
         // 1. Instantiate the new version of the Aggregate Root

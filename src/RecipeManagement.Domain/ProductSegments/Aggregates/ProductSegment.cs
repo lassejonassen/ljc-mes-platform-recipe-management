@@ -18,6 +18,7 @@ public sealed class ProductSegment : AggregateRoot
     public MaterialDefinition MaterialDefinition { get; } = null!;
     public Guid ProcessSegmentId { get; private set; }
     public ProcessSegment ProcessSegment { get; } = null!;
+    public Guid StableId { get; private set; }
     public ProductSegmentState State { get; private set; }
     public int Version { get; private set; }
     private readonly List<ProductSegmentParameter> _parameters = [];
@@ -32,7 +33,9 @@ public sealed class ProductSegment : AggregateRoot
         {
             MaterialDefinitionId = materialDefinitionId,
             ProcessSegmentId = processSegmentId,
-            State = ProductSegmentState.Draft
+            State = ProductSegmentState.Draft,
+            StableId = Guid.NewGuid(),
+            Version = 1
         };
 
         return Result.Success(productSegment);
@@ -40,12 +43,16 @@ public sealed class ProductSegment : AggregateRoot
 
     public Result<ProductSegment> CreateDraft(Guid processSegmentId, DateTime utcNow)
     {
+        if (State == ProductSegmentState.Draft)
+            return Result.Failure<ProductSegment>(ProductSegmentErrors.DraftFromDraftIsInvalid);
+
         var productSegment = new ProductSegment(utcNow)
         {
             MaterialDefinitionId = MaterialDefinitionId,
             ProcessSegmentId = processSegmentId,
-            Version = Version +1,
-            State = ProductSegmentState.Draft
+            Version = Version + 1,
+            State = ProductSegmentState.Draft,
+            StableId = StableId,
         };
 
         return Result.Success(productSegment);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RecipeManagement.Domain.MaterialDefinitions.Aggregates;
 using RecipeManagement.Domain.ProcessSegments.Aggregates;
 using RecipeManagement.Domain.ProcessSegments.Enums;
 using RecipeManagement.Domain.ProcessSegments.Repositories;
@@ -22,11 +23,27 @@ internal sealed class ProcessSegmentRepository
            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
+    public async Task<int> GetLatestVersionAsync(string name, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<ProcessSegment>()
+            .Where(m => m.Name == name)
+            .OrderByDescending(m => m.Version)
+            .Select(m => m.Version)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task<ProcessSegment?> GetReleasedAsync(Guid stableId, CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<ProcessSegment>()
             .Include(x => x.Parameters)
             .FirstOrDefaultAsync(x => x.StableId == stableId && x.State == ProcessSegmentState.Released, cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<ProcessSegment>> GetReleasedAsync(CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<ProcessSegment>()
+            .Where(x => x.State == ProcessSegmentState.Released)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<bool> IsLinkedToAnyProductSegmentAsync(Guid processSegmentId, CancellationToken cancellationToken = default)

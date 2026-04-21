@@ -25,4 +25,13 @@ internal sealed class ProductSegmentRepository
            .Include(x => x.ProcessSegment)
            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
+
+    public async Task<int> GetLatestVersionAsync(Guid stableId, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<ProductSegment>()
+            .Where(m => m.StableId == stableId)
+            .OrderByDescending(m => m.Version)
+            .Select(m => m.Version)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }

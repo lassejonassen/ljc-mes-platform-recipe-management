@@ -30,4 +30,7 @@ public static class ProductSegmentErrors
     public static readonly Error MaterialDefinitionNotReleased
                 = new($"{Prefix}.ProcessSegmentNotReleased", "You cannot create a draft from Material Definition which is not released", ErrorType.Failure);
 
+    public static readonly Error NotLatestVersion
+           = new($"{Prefix}.NotLatestVersion", "A new release can only be created from the latest version of the SKU", ErrorType.Failure);
+
 }

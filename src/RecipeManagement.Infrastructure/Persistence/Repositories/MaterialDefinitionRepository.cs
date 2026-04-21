@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecipeManagement.Domain.MaterialDefinitions.Aggregates;
+using RecipeManagement.Domain.MaterialDefinitions.Enums;
 using RecipeManagement.Domain.MaterialDefinitions.Repositories;
 using RecipeManagement.Infrastructure.Persistence.DbContexts;
 
@@ -27,6 +28,13 @@ internal sealed class MaterialDefinitionRepository(ApplicationDbContext context)
             .OrderByDescending(m => m.Version)
             .Select(m => m.Version)
             .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<MaterialDefinition>> GetReleasedAsync(CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<MaterialDefinition>()
+            .Where(x => x.State == MaterialDefinitionState.Released)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<bool> IsSkuUniqueAsync(string sku, CancellationToken cancellationToken = default)

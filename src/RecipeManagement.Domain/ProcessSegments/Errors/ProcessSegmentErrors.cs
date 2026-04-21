@@ -29,4 +29,7 @@ public static class ProcessSegmentErrors
 
     public static readonly Error DraftFromDraftIsInvalid
         = new($"{Prefix}.DraftFromDraftIsInvalid", "You cannot create a draft from another draft", ErrorType.Failure);
+
+    public static readonly Error NotLatestVersion
+           = new($"{Prefix}.NotLatestVersion", "A new release can only be created from the latest version of the SKU", ErrorType.Failure);
 }

@@ -1,4 +1,6 @@
-﻿using RecipeManagement.Domain.ProcessSegments.Repositories;
+﻿using RecipeManagement.Domain._Shared;
+using RecipeManagement.Domain.ProcessSegments.Errors;
+using RecipeManagement.Domain.ProcessSegments.Repositories;
 using RecipeManagement.Domain.ProductSegments.Errors;
 using RecipeManagement.Domain.ProductSegments.Repositories;
 
@@ -26,6 +28,11 @@ public sealed class CreateProductSegmentDraftCommandHandler(
             return Result.Failure<Guid>(ProductSegmentErrors.ProcessSegmentNotReleased);
 
         var utcNow = dateTimeProvider.UtcNow;
+
+        var latestVersion = await productSegmentRepository.GetLatestVersionAsync(productSegment.StableId, cancellationToken);
+
+        if (productSegment.Version != latestVersion)
+            return Result.Failure<Guid>(ProductSegmentErrors.NotLatestVersion);
 
         var newProductSegment = productSegment.CreateDraft(processSegment.Id, utcNow);
 

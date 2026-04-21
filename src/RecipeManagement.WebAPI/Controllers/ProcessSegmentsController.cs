@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Application.MaterialDefinitions.Commands;
+using RecipeManagement.Application.MaterialDefinitions.Queries;
 using RecipeManagement.Application.ProcessSegments.Commands;
 using RecipeManagement.Application.ProcessSegments.Queries;
 using RecipeManagement.WebAPI.Contracts.MaterialDefinitions;
@@ -88,6 +89,60 @@ public class ProcessSegmentsController : BaseController
         return Ok(_result);
     }
 
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpGet("{id:guid}/latest-version")]
+    public async Task<IActionResult> GetLatestVersion([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var query = new GetLatestProcessSegmentVersionQuery(id);
+
+        var result = await Mediator.Send(query, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return Ok(result.Value);
+    }
+
+    [ProducesResponseType(typeof(ProcessSegmentListResponseDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpGet("released")]
+    public async Task<IActionResult> GetReeleased(CancellationToken cancellationToken)
+    {
+        var query = new GetReleasedProcessSegmentsQuery();
+
+        var result = await Mediator.Send(query, cancellationToken);
+
+        if (!result.Any())
+        {
+            return NoContent();
+        }
+
+        var dtos = result.Select(x => new ProcessSegmentResponseDTO
+        {
+            Id = x.Id,
+            CreatedAtUtc = x.CreatedAtUtc,
+            UpdatedAtUtc = x.UpdatedAtUtc,
+            Name = x.Name,
+            StableId = x.StableId,
+            State = x.State,
+            Version = x.Version,
+        });
+
+        var _result = new ProcessSegmentListResponseDTO
+        {
+            Data = dtos,
+        };
+
+        return Ok(_result);
+    }
+
     [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -148,6 +203,31 @@ public class ProcessSegmentsController : BaseController
         }
 
         var command = new ReleaseProcessSegmentCommand(id);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPatch("{id:guid}/deprecate")]
+    public async Task<IActionResult> Deprecate([FromRoute] Guid id, [FromBody] ProcessSegmentDeprecateRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.Id)
+        {
+            return BadRequest("Id in route does not match Id in body.");
+        }
+
+        var command = new DeprecateProcessSegmentCommand(id);
 
         var result = await Mediator.Send(command, cancellationToken);
 

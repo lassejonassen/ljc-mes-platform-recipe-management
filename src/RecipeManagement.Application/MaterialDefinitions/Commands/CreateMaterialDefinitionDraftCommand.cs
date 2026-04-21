@@ -18,7 +18,7 @@ public sealed class CreateMaterialDefinitionDraftCommandHandler(
         if (materialDefinition is null)
             return Result.Failure<Guid>(MaterialDefinitionErrors.NotFound);
 
-        var latestVersion = await repository.GetLatestVersionAsync(materialDefinition.Sku);
+        var latestVersion = await repository.GetLatestVersionAsync(materialDefinition.Sku, cancellationToken);
 
         if (materialDefinition.Version != latestVersion)
             return Result.Failure<Guid>(MaterialDefinitionErrors.NotLatestVersion);

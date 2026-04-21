@@ -2,6 +2,7 @@
 using RecipeManagement.Application.MaterialDefinitions.Commands;
 using RecipeManagement.Application.MaterialDefinitions.Queries;
 using RecipeManagement.WebAPI.Contracts.MaterialDefinitions;
+using RecipeManagement.WebAPI.Contracts.ProcessSegments;
 
 namespace RecipeManagement.WebAPI.Controllers;
 
@@ -84,7 +85,7 @@ public class MaterialDefinitionsController : BaseController
         return Ok(_result);
     }
 
-    [ProducesResponseType(typeof(MaterialDefinitionResponseDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -102,6 +103,40 @@ public class MaterialDefinitionsController : BaseController
         }
 
         return Ok(result.Value);
+    }
+
+    [ProducesResponseType(typeof(MaterialDefinitionListResponseDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpGet("released")]
+    public async Task<IActionResult> GetReleased(CancellationToken cancellationToken)
+    {
+        var query = new GetReleasedMaterialDefinitionsQuery();
+
+        var result = await Mediator.Send(query, cancellationToken);
+
+        if (!result.Any())
+        {
+            return NoContent();
+        }
+
+        var dtos = result.Select(x => new MaterialDefinitionResponseDTO
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Sku = x.Sku,
+            State = x.State,
+            Version = x.Version,
+            CreatedAtUtc = x.CreatedAtUtc,
+            UpdatedAtUtc = x.UpdatedAtUtc,
+        });
+
+        var _result = new MaterialDefinitionListResponseDTO
+        {
+            Data = dtos,
+        };
+
+        return Ok(_result);
     }
 
     [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]

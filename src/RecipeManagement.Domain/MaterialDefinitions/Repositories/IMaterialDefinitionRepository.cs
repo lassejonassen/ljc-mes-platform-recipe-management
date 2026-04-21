@@ -1,4 +1,5 @@
 ﻿using RecipeManagement.Domain.MaterialDefinitions.Aggregates;
+using RecipeManagement.Domain.ProcessSegments.Aggregates;
 
 namespace RecipeManagement.Domain.MaterialDefinitions.Repositories;
 
@@ -8,4 +9,5 @@ public interface IMaterialDefinitionRepository : IRepository<MaterialDefinition>
     Task<MaterialDefinition?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<bool> IsSkuUniqueAsync(string sku, CancellationToken cancellationToken = default);
     Task<int> GetLatestVersionAsync(string sku, CancellationToken cancellationToken = default);
+    Task<IReadOnlyCollection<MaterialDefinition>> GetReleasedAsync(CancellationToken cancellationToken = default);
 }

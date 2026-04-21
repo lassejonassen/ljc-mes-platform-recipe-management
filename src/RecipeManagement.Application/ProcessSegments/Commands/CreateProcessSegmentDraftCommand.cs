@@ -18,6 +18,11 @@ public sealed class CreateProcessSegmentDraftCommandHandler(
         if (processSegment is null)
             return Result.Failure<Guid>(ProcessSegmentErrors.NotFound);
 
+        var latestVersion = await repository.GetLatestVersionAsync(processSegment.Name, cancellationToken);
+
+        if (processSegment.Version != latestVersion)
+            return Result.Failure<Guid>(ProcessSegmentErrors.NotLatestVersion);
+
         var newProcessSegment = processSegment.CreateDraft(dateTimeProvider.UtcNow);
 
         if (newProcessSegment.IsFailure)

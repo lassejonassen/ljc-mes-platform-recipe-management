@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Application.ProcessSegments.Commands;
+using RecipeManagement.Application.ProcessSegments.Queries;
 using RecipeManagement.Application.ProductSegments.Commands;
 using RecipeManagement.Application.ProductSegments.Queries;
 using RecipeManagement.WebAPI.Contracts.ProcessSegments;
@@ -86,11 +87,30 @@ public class ProductSegmentsController : BaseController
         return Ok(_result);
     }
 
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
+    [HttpGet("{id:guid}/latest-version")]
+    public async Task<IActionResult> GetLatestVersion([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var query = new GetLatestProductSegmentVersionQuery(id);
+
+        var result = await Mediator.Send(query, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return Ok(result.Value);
+    }
+
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] ProductSegmentCreateRequestDTO request, CancellationToken cancellationToken)
     {
@@ -145,6 +165,31 @@ public class ProductSegmentsController : BaseController
         }
 
         var command = new ReleaseProductSegmentCommand(id);
+
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result.Error);
+        }
+
+        return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+    [HttpPatch("{id:guid}/deprecate")]
+    public async Task<IActionResult> Deprecate([FromRoute] Guid id, [FromBody] ProductSegmentDeprecateRequestDTO request, CancellationToken cancellationToken)
+    {
+        if (id != request.Id)
+        {
+            return BadRequest("Id in route does not match Id in body.");
+        }
+
+        var command = new DeprecateProductSegmentCommand(id);
 
         var result = await Mediator.Send(command, cancellationToken);
 
