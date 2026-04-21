@@ -1,13 +1,16 @@
 name: Build and Push Docker Image
 
 on:
-  release:
-      types: [published]
+  workflow_run:
+    workflows: ["Auto Release"]
+    types:
+      - completed
   push:
     tags:
       - "v*" # Triggers on tags starting with 'v' (e.g., v1.0.0)
 jobs:
   build-and-push:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
